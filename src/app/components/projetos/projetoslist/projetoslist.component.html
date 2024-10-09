@@ -1,0 +1,74 @@
+<div class="container">
+
+    <div class="card">
+        <div class="card-body">
+            <div class="alinhamentoListagem">
+                <div>
+                    <h3 style="color: #54B4D3;">Listagem de projetos</h3>
+                </div>
+                <div class="alinharDireita">
+                    <button (click)="new()" type="button" class="btn btn-info btn-rounded" data-mdb-ripple-init><i
+                            class="fa-solid fa-square-plus"></i>
+                        Novo</button>
+                </div>
+            </div>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th style="background-color: antiquewhite;" class="centralizar" scope="col">ID</th>
+                    <th style="background-color: antiquewhite;" class="centralizar" scope="col">Nome</th>
+                    <th style="background-color: antiquewhite;" class="centralizar" scope="col">Data de Inicio</th>
+                    <th style="background-color: antiquewhite;" class="centralizar" scope="col">Data Prevista de Término</th>
+                    <th style="background-color: antiquewhite;" class="centralizar" scope="col">Término</th>
+                    <th style="background-color: antiquewhite;" class="centralizar" scope="col">Descrição</th>
+                    <th style="background-color: antiquewhite;" class="centralizar" scope="col">Status</th>
+                    <th style="background-color: antiquewhite;" class="centralizar" scope="col">Orçamento</th>
+                    <th style="background-color: antiquewhite;" class="centralizar" scope="col">Risco</th>
+                    <th style="background-color: antiquewhite;" class="centralizar" scope="col">Gerente</th>
+                    <th style="background-color: antiquewhite;" class="centralizar" scope="col">Ação</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (projeto of lista; track $index) {
+                <tr>
+                    <th class="centralizar" scope="row">{{projeto.id}}</th>
+                    <td class="centralizar">{{projeto.nome}}</td>
+                    <td class="centralizar">{{projeto.datainicio}}</td>
+                    <td class="centralizar">{{projeto.dataprevisaofim}}</td>
+                    <td class="centralizar">{{projeto.datafim}}</td>
+                    <td class="centralizar">{{projeto.descricao}}</td>
+                    <td class="centralizar">{{projeto.status}}</td>
+                    <td class="centralizar">{{projeto.orcamento}}</td>
+                    <td class="centralizar">{{projeto.risco}}</td>
+                    <td class="centralizar">{{projeto.idgerente}}</td>
+                    <td>
+                        <div class="centralizar">
+
+                            <button (click)="edit(projeto)" type="button" type="button"
+                                class="btn btn-outline-warning btn-rounded" data-mdb-ripple-init
+                                data-mdb-ripple-color="dark">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                                Editar</button>
+
+                            <button (click)="deleteById(projeto)" type="button" class="btn btn-outline-danger btn-rounded"
+                                data-mdb-ripple-init data-mdb-ripple-color="dark">
+                                <i class="fa-solid fa-trash-can"></i>
+                                Deletar</button>
+                        </div>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<ng-template #modalDetalhe>
+    <div style="background-color: #54B4D3;" class="modal-header">
+        <button type="button" class="btn-close" aria-label="Close" (click)="modalRef.close()"></button>
+    </div>
+    <div class="modal-body">
+        <app-projetosdetails [projeto]="projetoEdit" (retorno)="retornoDetalhe($event)"></app-projetosdetails>
+    </div>
+</ng-template>

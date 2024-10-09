@@ -1,0 +1,34 @@
+<p>pessoasdetails works!</p>
+
+<div class="container">
+    <h3 style="color: #54b4d3">CADASTRO DE PESSOAS</h3>
+    <div class="card">
+        <div class="card-body">
+            <div class="col-lg-4"></div>
+            <div class="col-lg-4">
+                Nome
+                <input type="text" name="nome" class="form-control" (keyup.enter)="save()" [(ngModel)]="pessoa.nome" />
+
+                Data de nascimento
+                <input type="text" name="nome" class="form-control" (keyup.enter)="save()" [(ngModel)]="pessoa.datanascimento" />
+
+                CPF
+                <input type="text" name="nome" class="form-control" (keyup.enter)="save()" [(ngModel)]="pessoa.cpf" />
+
+                Funcionário
+                <input type="text" name="nome" class="form-control" (keyup.enter)="save()" [(ngModel)]="pessoa.funcionario" />
+
+                Gerente
+                <input type="text" name="nome" class="form-control" (keyup.enter)="save()" [(ngModel)]="pessoa.gerente" />
+
+                
+                <button type="button" class="btn btn-info btn-rounded" (keyup.enter)="save()" data-mdb-ripple-init
+                    (click)="save()">
+                    <i class="fa-solid fa-floppy-disk"></i>
+                    Salvar
+                </button>
+            </div>
+            <div class="col-lg-4"></div>
+        </div>
+    </div>
+</div>
