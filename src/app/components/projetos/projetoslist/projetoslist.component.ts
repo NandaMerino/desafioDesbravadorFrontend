@@ -11,47 +11,41 @@ import { ProjetosdetailsComponent } from '../projetosdetails/projetosdetails.com
 import { Projeto } from '../../../models/projeto';
 import { ProjetosService } from '../../../services/projetos.service';
 import { Pessoa } from '../../../models/pessoa';
+import { CommonModule } from '@angular/common';
+import { PessoasService } from '../../../services/pessoas.service';
+
 
 @Component({
   selector: 'app-projetoslist',
   standalone: true,
-  imports: [FormsModule, RouterLink, MdbModalModule, ProjetosdetailsComponent],
+  imports: [FormsModule, RouterLink, MdbModalModule, ProjetosdetailsComponent, CommonModule],
   templateUrl: './projetoslist.component.html',
   styleUrl: './projetoslist.component.scss'
 })
+
 export class ProjetoslistComponent {
   lista: Projeto[] = [];
-  projetoEdit: Projeto = new Projeto(0,'', new Date(), new Date(), new Date(), '', '', 0, '', new Pessoa(0, '', new Date(), '',false,false));
-  
+  projetoEdit: Projeto = new Projeto();
+
+  listaPessoa: Pessoa [] = [];
+
   modalService = inject(MdbModalService);
-  @ViewChild('modalDetalhe') modalDetalhe!: TemplateRef<any>;
+  @ViewChild('modalProjetoDetalhe') modalProjetoDetalhe!: TemplateRef<any>;
   modalRef!: MdbModalRef<any>;
 
+  //INJECTS
   projetosService = inject(ProjetosService);
+  pessoaService = inject(PessoasService);
 
   constructor() {
     this.listAll();
-
-    let projetoNovo = history.state.projetoNovo;
-    let projetoEditado = history.state.projetoEditado;
-
-    if (projetoNovo != null) {
-      this.lista.push(projetoNovo);
-    }
-
-    if (projetoEditado != null) {
-      let indice = this.lista.findIndex((x) => {
-        return x.id == projetoEditado.id;
-      });
-      this.lista[indice] = projetoEditado;
-    }
   }
 
   listAll() {
     this.projetosService.listAll().subscribe({
       next: (lista) => {
-        console.log('b');
         this.lista = lista;
+        console.log(lista);
       },
       error: (erro) => {
         alert('Não foi possivel exibir a lista');
@@ -101,18 +95,17 @@ export class ProjetoslistComponent {
   }
 
   new() {
-    this.projetoEdit = new Projeto(0,'', new Date(), new Date(), new Date(), '', '', 0, '', new Pessoa(0, '', new Date(), '',false,false));
-    this.modalRef = this.modalService.open(this.modalDetalhe);
+    this.projetoEdit = new Projeto();
+    this.modalRef = this.modalService.open(this.modalProjetoDetalhe);
   }
 
   edit(projeto: Projeto) {
     this.projetoEdit = Object.assign({}, projeto);
-    this.modalRef = this.modalService.open(this.modalDetalhe);
+    this.modalRef = this.modalService.open(this.modalProjetoDetalhe);
   }
 
   retornoDetalhe(projeto: Projeto) {
     this.listAll();
     this.modalRef.close();
   }
-
 }

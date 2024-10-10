@@ -1,5 +1,4 @@
 <div class="container">
-
     <div class="card">
         <div class="card-body">
             <div class="alinhamentoListagem">
@@ -7,9 +6,9 @@
                     <h3 style="color: #54B4D3;">Listagem de pessoas</h3>
                 </div>
                 <div class="alinharDireita">
-                    <button (click)="new()" type="button" class="btn btn-info btn-rounded" data-mdb-ripple-init><i
-                            class="fa-solid fa-square-plus"></i>
-                        Novo</button>
+                    <button (click)="new()" type="button" class="btn btn-info btn-rounded" data-mdb-ripple-init>
+                        <i class="fa-solid fa-square-plus"></i> Novo
+                    </button>
                 </div>
             </div>
         </div>
@@ -26,29 +25,37 @@
                 </tr>
             </thead>
             <tbody>
-                @for (pessoa of lista; track $index) {
-                <tr>
+                <tr *ngFor="let pessoa of lista; let i = index">
                     <th class="centralizar" scope="row">{{pessoa.id}}</th>
                     <td class="centralizar">{{pessoa.nome}}</td>
                     <td class="centralizar">{{pessoa.datanascimento}}</td>
                     <td class="centralizar">{{pessoa.cpf}}</td>
                     <td class="centralizar">{{ pessoa.funcionario ? '✔️' : '❌' }}</td>
                     <td class="centralizar">{{ pessoa.gerente ? '✔️' : '❌' }}</td>
+
                     <td>
-                        <div class="centralizar">
-                            <button (click)="edit(pessoa)" type="button" class="btn btn-outline-warning btn-rounded" data-mdb-ripple-init
-                                data-mdb-ripple-color="dark">
-                                <i class="fa-solid fa-pen-to-square"></i>
-                                Editar</button>
-            
-                            <button (click)="deleteById(pessoa)" type="button" class="btn btn-outline-danger btn-rounded"
-                                data-mdb-ripple-init data-mdb-ripple-color="dark">
-                                <i class="fa-solid fa-trash-can"></i>
-                                Deletar</button>
-                        </div>
+                        @if (esconderBotoes) {
+                            <button type="button" class="btn btn-primary btn-rounded" mdbRipple
+                            (click)="select(pessoa)">
+                            Selecionar
+                        </button>
+                        }@else {
+                            <div class="centralizar actionbtn">
+                                <button (click)="edit(pessoa)" type="button" class="btn btn-outline-warning btn-rounded" data-mdb-ripple-init data-mdb-ripple-color="dark">
+                                    <i class="fa-solid fa-pen-to-square"></i> Editar
+                                </button>
+                                
+    
+                                <button (click)="deleteById(pessoa)" type="button" class="btn btn-outline-danger btn-rounded" data-mdb-ripple-init data-mdb-ripple-color="dark">
+                                    <i class="fa-solid fa-trash-can"></i> Deletar
+                                </button>
+                                    
+                            </div>
+                        }
+                    </td>
+                    <td>
                     </td>
                 </tr>
-                }
             </tbody>
         </table>
     </div>
@@ -62,3 +69,6 @@
         <app-pessoasdetails [pessoa]="pessoaEdit" (retorno)="retornoDetalhe($event)"></app-pessoasdetails>
     </div>
 </ng-template>
+
+
+

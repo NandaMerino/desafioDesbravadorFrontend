@@ -1,4 +1,4 @@
-import { Component, inject, TemplateRef, ViewChild } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output, TemplateRef, ViewChild } from '@angular/core';
 import { Pessoa } from '../../../models/pessoa';
 import { PessoasService } from '../../../services/pessoas.service';
 import Swal from 'sweetalert2';
@@ -10,17 +10,21 @@ import {
   MdbModalService,
 } from 'mdb-angular-ui-kit/modal';
 import { PessoasdetailsComponent } from '../pessoasdetails/pessoasdetails.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-pessoaslist',
   standalone: true,
-  imports: [FormsModule, RouterLink, MdbModalModule, PessoasdetailsComponent],
+  imports: [FormsModule, RouterLink, MdbModalModule, PessoasdetailsComponent,CommonModule],
   templateUrl: './pessoaslist.component.html',
   styleUrl: './pessoaslist.component.scss'
 })
 export class PessoaslistComponent {
   lista: Pessoa[] = [];
-  pessoaEdit: Pessoa = new Pessoa(0, '', new Date(), '',false,false);
+  pessoaEdit: Pessoa = new Pessoa();
+
+  @Input("esconderBotoes") esconderBotoes: boolean = false;
+  @Output("retorno") retorno = new EventEmitter<any>();
 
   modalService = inject(MdbModalService);
   @ViewChild('modalDetalhe') modalDetalhe!: TemplateRef<any>;
@@ -100,7 +104,7 @@ export class PessoaslistComponent {
   }
 
   new() {
-    this.pessoaEdit = new Pessoa(0, '', new Date(), '',false,false);
+    this.pessoaEdit = new Pessoa();
     this.modalRef = this.modalService.open(this.modalDetalhe);
   }
 
@@ -109,9 +113,22 @@ export class PessoaslistComponent {
     this.modalRef = this.modalService.open(this.modalDetalhe);
   }
 
+  //PARA MEMBROS
+  select(pessoa: Pessoa){
+    this.retorno.emit(pessoa);
+  }
+
+  //PARA MEMBROS
   retornoDetalhe(pessoa: Pessoa) {
     this.listAll();
     this.modalRef.close();
   }
+
+
+  
+  //PARA GERENTE
+
+
+  //PARA GERENTE
 
 }

@@ -4,17 +4,20 @@ import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { Pessoa } from '../../../models/pessoa';
 import { PessoasService } from '../../../services/pessoas.service';
+import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
 
 
 @Component({
   selector: 'app-pessoasdetails',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, MdbModalModule],
   templateUrl: './pessoasdetails.component.html',
   styleUrl: './pessoasdetails.component.scss',
 })
+
 export class PessoasdetailsComponent {
-  @Input('pessoa') pessoa: Pessoa = new Pessoa(0, '', new Date(), '',false,false);
+  //@Input('pessoa') pessoa: Pessoa = new Pessoa(0, '', new Date(), '',false,false);
+  @Input('pessoa') pessoa: Pessoa = new Pessoa();
   @Output('retorno') retorno = new EventEmitter<any>();
 
   router = inject(ActivatedRoute);
@@ -22,10 +25,28 @@ export class PessoasdetailsComponent {
 
   pessoasService = inject(PessoasService);
 
+
+  pessoaBoolean: { funcionario: boolean; gerente: boolean } = {
+    funcionario: false,
+    gerente: false
+};
+
+toggleCheckbox(selecao: string): void {
+    if (selecao === 'funcionario' && this.pessoa.funcionario) {
+        this.pessoa.gerente = false;
+    } else if (selecao === 'gerente' && this.pessoa.gerente) {
+        this.pessoa.funcionario = false;
+    }
+}
+
   constructor() {
-    let id = this.router.snapshot.params['id'];
-    if (id > 0) {
+    let id = this.router.snapshot.params["id"];
+    if(id > 0){
       this.findById(id);
+    }else{
+      if(this.pessoa.id > 0){
+        this.findById(id);
+      }
     }
   }
 
